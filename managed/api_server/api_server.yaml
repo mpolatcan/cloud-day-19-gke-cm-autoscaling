@@ -9,7 +9,7 @@ spec:
     app: api-server
   ports:
     - name: api-server-port
-      port: 80
+      port: 3000
       targetPort: 5000
   type: NodePort
 ---
@@ -25,7 +25,7 @@ spec:
         paths:
           - backend:
               serviceName: api-server-svc
-              servicePort: 80
+              servicePort: 3000
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -43,14 +43,14 @@ spec:
     spec:
       containers:
         - name: api-server
-          image: us.gcr.io/poc-project-214708/api-server:v1
+          image: us.gcr.io/cloud-day-233307/api-server:v1
           imagePullPolicy: Always
           workingDir: /
           env:
             - name: "API_SERVER_PORT"
               value: "5000"
             - name: "GCP_PROJECT_ID"
-              value: "poc-project-214708"
+              value: "cloud-day-233307"
             - name: "PUBSUB_TOPIC_NAME"
               value: "test-topic"
           ports:
