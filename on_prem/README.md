@@ -50,7 +50,7 @@ kubectl apply -f sample_app_hpa.yaml
     k6 run --vus 100 --duration 3m stress.js
 
 #### stress.js
-``javascript
+```javascript
 import http from "k6/http";
 import { sleep } from "k6";
 
@@ -59,7 +59,8 @@ export default function() {
 };
 ```
 
-## References
+### References
+ 
 [1] - https://github.com/DirectXMan12/k8s-prometheus-adapter
 
 [2] - https://github.com/kubeless/kubeless/tree/master/manifests/autoscaling
