@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pubsub-consumer
+  labels:
+    app: pubsub-consumer
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: pubsub-consumer
+      labels:
+        app: pubsub-consumer
+    spec:
+      containers:
+        - name: pubsub-consumer
+          image: us.gcr.io/poc-project-214708/pubsub-consumer:v1
+          imagePullPolicy: Always
+          workingDir: /
+          env:
+            - name: "GCP_PROJECT_ID"
+              value: "poc-project-214708"
+            - name: "PUBSUB_TOPIC_NAME"
+              value: "test-topic"
+            - name: "PUBSUB_SUBSCRIPTION_ID"
+              value: "test-subscription"
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: pubsub-consumer
