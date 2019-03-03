@@ -14,17 +14,25 @@ spec:
     spec:
       containers:
         - name: pubsub-consumer
-          image: us.gcr.io/cloud-day-233307/pubsub-consumer:v1
+          image: mpolatcan/cloudday-pubsub-consumer
           imagePullPolicy: Always
-          workingDir: /
           env:
             - name: "GCP_PROJECT_ID"
-              value: "cloud-day-233307"
+              value: "mpolatcan-sandbox" # Enter your project id
             - name: "PUBSUB_TOPIC_NAME"
               value: "test-topic"
             - name: "PUBSUB_SUBSCRIPTION_ID"
               value: "test-subscription"
+            - name: "GCP_AUTH_FILE_LOCATION"
+              value: "/auth/mpolatcan-sandbox-2b957d5c708c.json" # Enter your auth filename.json
+          volumeMounts:
+            - mountPath: /auth
+              name: gke-auth-file-vol
       restartPolicy: Always
+      volumes:
+        - name: gke-auth-file-vol
+          secret:
+            secretName: gke-auth-file-secret
   selector:
     matchLabels:
       app: pubsub-consumer

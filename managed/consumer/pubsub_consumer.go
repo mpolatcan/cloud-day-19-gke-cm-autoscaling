@@ -1,3 +1,9 @@
+/* Written by Mutlu Polatcan
+   01.03.2019
+   Cloud Day 2019 - Custom Metric Autoscaling with GKE
+   Pubsub consumer that consumes messages from Pubsub
+   (Demo purpose only)
+*/
 package main
 
 import (
@@ -48,7 +54,7 @@ func (pubsubConsumer *PubsubConsumer) PreparePubsubComponents() {
 }
 
 func (pubsubConsumer *PubsubConsumer) Start(projectID string, topicName string, subscriptionID string) {
-	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "auth.json")
+	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", os.Getenv("GCP_AUTH_FILE_LOCATION"))
 
 	pubsubConsumer.ProjectID = projectID
 	pubsubConsumer.TopicName = topicName
@@ -56,7 +62,7 @@ func (pubsubConsumer *PubsubConsumer) Start(projectID string, topicName string, 
 	pubsubConsumer.PreparePubsubComponents()
 
 	pubsubConsumer.PubsubSubscription.Receive(pubsubConsumer.Context, func(i context.Context, message *pubsub.Message) {
-		fmt.Printf("Message arrived: %s", message.Data)
+		fmt.Printf("Message arrived: %s\n", message.Data)
 		message.Ack()
 	})
 }

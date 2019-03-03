@@ -1,3 +1,9 @@
+/* Written by Mutlu Polatcan
+   01.03.2019
+   Cloud Day 2019 - Custom Metric Autoscaling with GKE
+   API Server that writes simple uuid to Pubsub when request.
+   (Demo purpose only)
+*/
 package main
 
 import (
@@ -63,7 +69,7 @@ func (apiServer *ApiServer) Stress(w http.ResponseWriter, r *http.Request) {
 }
 
 func (apiServer *ApiServer) Start(projectID string, topicName string, port string) {
-	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", "auth.json")
+	os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", os.Getenv("GCP_AUTH_FILE_LOCATION"))
 
 	apiServer.ProjectId = projectID
 	apiServer.TopicName = topicName

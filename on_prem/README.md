@@ -39,26 +39,34 @@ kubectl apply -f sample_app.yaml
 kubectl apply -f service_monitor.yaml
 ```
 
-### Create Horizontal Pod Autoscaler
+### Create HorizontalPodAutoscaler
 
 ```
 kubectl apply -f sample_app_hpa.yaml
 ```
 
-### Running stress test with your favorite stress tool. In there, I have used LoadImpact's k6 tool 
+### Running test with your favorite load test tool.
 
-    k6 run --vus 100 --duration 3m stress.js
-
+In there, I have used LoadImpact's k6 tool that executes Javascript test scenarios.
+    
 #### stress.js
 ```javascript
 import http from "k6/http";
 import { sleep } from "k6";
 
 export default function() {
-    http.get("http://34.95.102.51/stress");
+    http.get("http://[LOAD_BALANCER_EXTERNAL_IP]");
 };
 ```
 
+You can learn Ingress external ip by executing below command:
+
+    kubectl get ing 
+
+Start test:
+
+    k6 run --vus 100 --duration 3m stress.js
+    
 ### References
  
 [1] - https://github.com/DirectXMan12/k8s-prometheus-adapter

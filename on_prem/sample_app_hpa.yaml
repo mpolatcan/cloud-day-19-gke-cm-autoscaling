@@ -14,4 +14,4 @@ spec:
     - type: Pods
       pods:
         metricName: http_requests
-        targetAverageValue: 500m
+        targetAverageValue: 100m

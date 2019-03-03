@@ -43,16 +43,17 @@ spec:
     spec:
       containers:
         - name: api-server
-          image: us.gcr.io/cloud-day-233307/api-server:v1
+          image: mpolatcan/cloudday-api-server
           imagePullPolicy: Always
-          workingDir: /
           env:
             - name: "API_SERVER_PORT"
               value: "5000"
             - name: "GCP_PROJECT_ID"
-              value: "cloud-day-233307"
+              value: "mpolatcan-sandbox" # Enter your project id
             - name: "PUBSUB_TOPIC_NAME"
               value: "test-topic"
+            - name: "GCP_AUTH_FILE_LOCATION"
+              value: "/auth/mpolatcan-sandbox-2b957d5c708c.json" # Enter your auth filename.json
           ports:
             - containerPort: 5000
           livenessProbe:
@@ -69,7 +70,14 @@ spec:
             initialDelaySeconds: 1
             failureThreshold: 3
             periodSeconds: 3
+          volumeMounts:
+            - mountPath: /auth
+              name: gke-auth-file-vol
       restartPolicy: Always
+      volumes:
+        - name: gke-auth-file-vol
+          secret:
+            secretName: gke-auth-file-secret
   selector:
     matchLabels:
       app: api-server
