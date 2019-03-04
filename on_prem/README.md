@@ -59,9 +59,9 @@ export default function() {
 };
 ```
 
-You can learn Ingress external ip by executing below command:
+You can learn Load Balancer external ip by executing below command:
 
-    kubectl get ing 
+    kubectl get svc 
 
 Start test:
 
